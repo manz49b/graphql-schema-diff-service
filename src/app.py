@@ -2,8 +2,8 @@ from schema_parser import SchemaParser
 from schema_diff import SchemaDiff, json
 from prompt import get_prompt
 from claude import create_message
-from json_tools import safe_load_json
-from eval import evaluate_response
+from utils import safe_load_json, save_evaluation_data
+from eval import evaluate_response, f1_results, ab_testing, rate_coherence, expert_rubric, identify_edge_cases
 from base import DATA_PATH
 
 def main():
@@ -22,21 +22,49 @@ def main():
         expected_output = json.load(file)
         
     schema_diff = SchemaDiff(schema_v1, schema_v2)
-    change_report = schema_diff.detect_changes()
-    # Python change report
-    print(json.dumps(change_report, indent=2))
+    python_change_report = schema_diff.detect_changes()
 
-    prompt = get_prompt(schema_v1, schema_v2)
+    prompt, prompt_version = get_prompt(schema_v1, schema_v2)
     response = create_message(prompt, 2048)
-    # LLM change report
     llm_change_report = safe_load_json(response[0].text)
-    print(response)
 
+    # Model eval
+    metrics = {}
     print("LLM Scoring:")
     evaluate_response(expected_output, llm_change_report)
-    print("Python Method Scoring:")
-    evaluate_response(expected_output, change_report)
+    metrics['llm_f1'] = f1_results(llm_change_report, expected_output)
 
+    print("Python Method Scoring:")
+    evaluate_response(expected_output, python_change_report)
+    metrics['python_f1'] = f1_results(python_change_report, expected_output)
+
+    llm_edge_case_results = identify_edge_cases(llm_change_report, llm_change_report)
+    python_edge_case_results = identify_edge_cases(python_change_report, python_change_report)
+
+    metrics['llm_edge_cases'] = llm_edge_case_results
+    metrics['python_edge_cases'] = python_edge_case_results
+
+    llm_pref, python_pref = ab_testing(llm_change_report, python_change_report)
+    metrics['llm_pref'] = llm_pref
+    metrics['python_pref'] = python_pref
+
+    llm_coherence_score, llm_ratings = rate_coherence(llm_change_report)
+    python_coherence_score, python_ratings = rate_coherence(python_change_report)
+
+    metrics['llm_coherence_score'] = llm_coherence_score
+    metrics['python_coherence_score'] = python_coherence_score
+    metrics['llm_ratings'] = llm_ratings
+    metrics['python_ratings'] = python_ratings
+
+    llm_rubric_score, llm_rubric_details = expert_rubric(llm_change_report)
+    python_rubric_score, python_rubric_details = expert_rubric(python_change_report)
+
+    metrics['llm_rubric_score'] = llm_rubric_score
+    metrics['python_rubric_score'] = python_rubric_score
+    metrics['llm_rubric_details'] = llm_rubric_details
+    metrics['python_rubric_details'] = python_rubric_details
+
+    save_evaluation_data(example, prompt, prompt_version, llm_change_report, python_change_report, expected_output, metrics)
 
 if __name__ == "__main__":
     main()

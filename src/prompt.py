@@ -174,4 +174,5 @@ def get_prompt(schema_v1, schema_v2):
     Schema v2:
     {schema_v2}
     """
-    return prompt
+    prompt_version = 1
+    return prompt, prompt_version

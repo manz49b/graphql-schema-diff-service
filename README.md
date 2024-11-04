@@ -68,6 +68,26 @@ The tool will generate an output JSON highlighting changes such as renamed param
 ## Scoring Comparison
 The project includes scoring evaluations for the generated release notes using two different methods: a Large Language Model (LLM) scoring method and a traditional Python scoring method. Below are the results of the evaluations:
 
+## Evaluation Framework
+
+The **GraphQL Schema Diff Service** incorporates a blend of quantitative and qualitative metrics to evaluate the effectiveness of schema change detection and release note generation. Below is an overview of the key metrics used:
+
+### Quantitative Metrics
+- **F1 Score**: Measures the accuracy of breaking vs. non-breaking classification.
+- **BLEU and ROUGE Scores**: Evaluate the quality of generated release notes by comparing them to reference summaries.
+- **Precision and Recall**: Provide insights into the service’s ability to identify relevant schema changes accurately.
+- **Response Time**: Assesses the processing efficiency, especially relevant for integration in CI/CD pipelines.
+  
+### Qualitative Methods
+- **Likert Scales for Coherence**: Users rate the clarity and coherence of generated release notes on a 1–5 scale.
+- **Expert Rubrics**: Domain experts review release notes based on criteria like readability, relevance, and precision.
+
+### Quantitative Methods
+- **A/B Testing**: Tests improvements in release note generation by comparing new versions of the tool with a baseline.
+- **Edge Case Analysis**: Monitors the tool's accuracy and error-handling in uncommon schema scenarios.
+
+These metrics ensure that the **GraphQL Schema Diff Service** remains effective and user-friendly for API version management and change communication.
+
 ### LLM Scoring:
 - **BLEU Score**: 0.4827
 - **ROUGE Score**: 
