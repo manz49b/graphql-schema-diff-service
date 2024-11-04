@@ -32,7 +32,9 @@ def main():
     llm_change_report = safe_load_json(response[0].text)
     print(response)
 
+    print("LLM Scoring:")
     evaluate_response(expected_output, llm_change_report)
+    print("Python Method Scoring:")
     evaluate_response(expected_output, change_report)
 
 
