@@ -1,7 +1,24 @@
-import json
 from typing import Dict, Any, List
+import json 
 
 class SchemaDiff:
+    """
+    Class to detect changes between two GraphQL schemas.
+    
+    Args:
+    schema_v1 (dict): The first schema to compare.
+    schema_v2 (dict): The second schema to compare.
+    
+    Methods:
+    detect_changes: Detect changes between the two schemas.
+    _check_query_changes: Check for changes in the Query type.
+    _detect_renamed_parameters: Detect renamed parameters in a query.
+    _check_weather_type_changes: Check for changes in the Weather type.
+    _check_removed_fields: Check for removed fields in a type.
+    _check_added_fields: Check for added fields in a type.
+    _summarize_changes: Summarize the detected changes into a structured JSON format.
+    
+    """
     def __init__(self, schema_v1: Dict[str, Any], schema_v2: Dict[str, Any]):
         self.schema_v1 = schema_v1
         self.schema_v2 = schema_v2

@@ -2,7 +2,17 @@ import re
 from typing import Dict, Any
 
 class SchemaParser:
-    """A class to parse GraphQL schemas from .txt files into a structured dictionary format."""
+    """
+    A class to parse GraphQL schemas from .txt files into a structured dictionary format.
+    
+    Args:
+    file_path (str): The path to the schema file to parse.
+    
+    Methods:
+    parse: Parse the GraphQL schema from the specified file path.
+    parse_parameters: Parse input parameters from a field declaration into a dictionary.
+    parse_field_type: Parse field type, determining if it's nullable or a list.
+    """
     
     # Compile regex patterns for improved performance
     TYPE_REGEX = re.compile(r"type (\w+) {")

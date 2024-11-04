@@ -1,6 +1,6 @@
 from schema_parser import SchemaParser
 from schema_diff import SchemaDiff, json
-from prompt import get_prompt
+from prompt import get_prompt_7
 from claude import create_message
 from utils import safe_load_json, save_evaluation_data
 from eval import evaluate_response, f1_results, ab_testing, rate_coherence, expert_rubric, identify_edge_cases
@@ -24,19 +24,30 @@ def main():
     schema_diff = SchemaDiff(schema_v1, schema_v2)
     python_change_report = schema_diff.detect_changes()
 
-    prompt, prompt_version = get_prompt(schema_v1, schema_v2)
-    response = create_message(prompt, 2048)
+    prompt, prompt_version = get_prompt_7(schema_v1, schema_v2)
+    response = create_message(prompt, 4096)
     llm_change_report = safe_load_json(response[0].text)
 
-    # Model eval
     metrics = {}
-    print("LLM Scoring:")
-    evaluate_response(expected_output, llm_change_report)
-    metrics['llm_f1'] = f1_results(llm_change_report, expected_output)
-
     print("Python Method Scoring:")
-    evaluate_response(expected_output, python_change_report)
-    metrics['python_f1'] = f1_results(python_change_report, expected_output)
+    bleu_score, rouge_score, exact_match = evaluate_response(expected_output, python_change_report)
+    metrics['llm_bleu_score'] = bleu_score
+    metrics['llm_rouge_score'] = rouge_score
+    metrics['exact_match'] = exact_match
+    f1, precision, recall = f1_results(python_change_report, expected_output)
+    metrics['llm_f1'] = f1
+    metrics['llm_precision'] = precision
+    metrics['llm_recall'] = recall
+
+    print("LLM Scoring:")
+    bleu_score, rouge_score, exact_match = evaluate_response(expected_output, llm_change_report)
+    metrics['llm_bleu_score'] = bleu_score
+    metrics['llm_rouge_score'] = rouge_score
+    metrics['exact_match'] = exact_match
+    f1, precision, recall = f1_results(llm_change_report, expected_output)
+    metrics['llm_f1'] = f1
+    metrics['llm_precision'] = precision
+    metrics['llm_recall'] = recall
 
     llm_edge_case_results = identify_edge_cases(llm_change_report, llm_change_report)
     python_edge_case_results = identify_edge_cases(python_change_report, python_change_report)
