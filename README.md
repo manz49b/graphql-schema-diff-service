@@ -177,26 +177,13 @@ run the code below to auto update your environment.
 │   ├── output-example.txt
 │   ├── schema-1-example.txt
 │   └── schema-2-example.txt
-├── reports
-│   └── .gitkeep
 └── src
-    ├── json_tools.py
+    ├── utils.py
     ├── claude.py
-    ├── release_notes_generator.py
-    ├── __pycache__
-    │   ├── schema_diff.cpython-310.pyc
-    │   ├── base.cpython-310.pyc
-    │   ├── claude.cpython-310.pyc
-    │   ├── prompt.cpython-310.pyc
-    │   ├── eval.cpython-310.pyc
-    │   ├── json.cpython-310.pyc
-    │   ├── json_tools.cpython-310.pyc
-    │   └── schema_parser.cpython-310.pyc
-    ├── temp.ipynb
+    ├── eval_files.ipynb
     ├── app.py
     ├── prompt.py
     ├── eval.py
-    ├── main.py
     ├── schema_parser.py
     ├── schema_diff.py
     └── base.py
