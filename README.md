@@ -69,7 +69,7 @@ The tool will generate an output JSON highlighting changes such as renamed param
 The project includes scoring evaluations for the generated release notes using two different methods: a Large Language Model (LLM) scoring method and a traditional Python scoring method. Below are the results of the evaluations:
 
 ### LLM Scoring:
-- **BLEU Score**: 0.0000
+- **BLEU Score**: 0.4827
 - **ROUGE Score**: 
   ```json
   {
@@ -82,7 +82,7 @@ The project includes scoring evaluations for the generated release notes using t
 
 
 ### Python Methodology Scoring:
-- **BLEU Score**: 0.0000
+- **BLEU Score**: 0.3618
 - **ROUGE Score**: 
   ```json
   {
