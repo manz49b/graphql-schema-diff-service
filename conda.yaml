@@ -22,9 +22,14 @@ dependencies:
   - fastapi
   - uvicorn
 
-  # core llm
-  - guidance
+  # core lm/nlp
+  # - guidance
   - anthropic
+  - nltk
+  - rouge
+
+  - pip:
+    - fmeval
 
 # set your prefix to the location of the environment
 prefix: ${BASE_ENV_DIR}/graphql-schema-diff-service

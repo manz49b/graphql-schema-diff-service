@@ -6,8 +6,8 @@ class SchemaParser:
     
     # Compile regex patterns for improved performance
     TYPE_REGEX = re.compile(r"type (\w+) {")
-    FIELD_WITH_PARAMS_REGEX = re.compile(r"\s*(\w+)\((.*?)\): (\w+)")
-    SIMPLE_FIELD_REGEX = re.compile(r"\s*(\w+): (\w+)")
+    FIELD_WITH_PARAMS_REGEX = re.compile(r"\s*(\w+)\((.*?)\): ([\w\[\]!]+)")
+    SIMPLE_FIELD_REGEX = re.compile(r"\s*(\w+): ([\w\[\]!]+)")
 
     def __init__(self, file_path: str):
         """Initialize the SchemaParser with the path to the schema file."""
@@ -21,6 +21,17 @@ class SchemaParser:
         return {
             param.split(": ")[0]: param.split(": ")[1] 
             for param in parameters.split(", ")
+        }
+
+    def parse_field_type(self, field_type: str) -> Dict[str, Any]:
+        """Parse field type, determining if it's nullable or a list."""
+        is_nullable = "!" not in field_type
+        is_list = "[" in field_type
+        base_type = field_type.replace("!", "").replace("[", "").replace("]", "")
+        return {
+            "base_type": base_type,
+            "is_nullable": is_nullable,
+            "is_list": is_list
         }
 
     def parse(self) -> Dict[str, Dict[str, Any]]:
@@ -47,7 +58,7 @@ class SchemaParser:
 
                     self.schema_dict[current_type][field_name] = {
                         "parameters": self.parse_parameters(parameters),
-                        "return_type": return_type
+                        "return_type": self.parse_field_type(return_type)
                     }
                     continue
 
@@ -56,6 +67,6 @@ class SchemaParser:
                 if simple_field_match and current_type:
                     field_name = simple_field_match.group(1)
                     field_type = simple_field_match.group(2)
-                    self.schema_dict[current_type][field_name] = field_type
+                    self.schema_dict[current_type][field_name] = self.parse_field_type(field_type)
 
         return self.schema_dict

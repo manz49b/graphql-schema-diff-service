@@ -1,0 +1,33 @@
+type Query {
+  getProduct(id: ID!): Product
+  listProducts(category: String, inStock: Boolean): [Product!]
+  getManufacturer(id: ID!): Manufacturer!
+}
+
+type Product {
+  id: ID!
+  name: String!
+  price: Float
+  tags: [String!]
+  dimensions: Dimensions
+  manufacturer: Manufacturer!
+  rating: Int
+}
+
+type Dimensions {
+  length: Float!
+  width: Float!
+  height: Float!
+}
+
+type Manufacturer {
+  id: ID!
+  name: String!
+  location: Location
+}
+
+type Location {
+  city: String
+  state: String
+  country: String!
+}

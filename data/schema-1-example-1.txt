@@ -1,0 +1,25 @@
+type Query {
+  getProduct(id: ID!): Product
+  listProducts(category: String): [Product]
+}
+
+type Product {
+  id: ID
+  name: String
+  price: Float
+  tags: [String]
+  dimensions: Dimensions
+  manufacturer: Manufacturer
+}
+
+type Dimensions {
+  length: Float
+  width: Float
+  height: Float
+}
+
+type Manufacturer {
+  id: ID
+  name: String
+  location: String
+}

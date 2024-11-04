@@ -1,0 +1,105 @@
+{
+  "changes": [
+    {
+      "type": "Product",
+      "field": "id",
+      "change": "Field 'id' made non-nullable",
+      "breaking": true,
+      "release_note": "The `id` field on `Product` has been made non-nullable. This is a breaking change; existing entries with null `id` values will cause errors."
+    },
+    {
+      "type": "Product",
+      "field": "name",
+      "change": "Field 'name' made non-nullable",
+      "breaking": true,
+      "release_note": "The `name` field on `Product` is now non-nullable. Ensure all product entries include a name value, as this is a breaking change."
+    },
+    {
+      "type": "Product",
+      "field": "tags",
+      "change": "List 'tags' made non-nullable",
+      "breaking": true,
+      "release_note": "The `tags` list on `Product` now requires non-null values for each tag. Existing entries with null values in `tags` will cause errors, marking a breaking change."
+    },
+    {
+      "type": "Product",
+      "field": "manufacturer",
+      "change": "Field 'manufacturer' made non-nullable",
+      "breaking": true,
+      "release_note": "The `manufacturer` field on `Product` has been updated to be non-nullable. Ensure all products reference a manufacturer as this is a breaking change."
+    },
+    {
+      "type": "Product",
+      "field": "rating",
+      "change": "Added new Int field 'rating'",
+      "breaking": false,
+      "release_note": "The `rating` field has been added to `Product`. This non-breaking change allows clients to access a product's rating, if available."
+    },
+    {
+      "type": "Query",
+      "field": "listProducts",
+      "change": "Added new parameter 'inStock' to query 'listProducts'",
+      "breaking": false,
+      "release_note": "An `inStock` parameter has been added to `listProducts`, allowing clients to filter products by stock status. This is a non-breaking change."
+    },
+    {
+      "type": "Query",
+      "field": "getManufacturer",
+      "change": "Added new query 'getManufacturer'",
+      "breaking": false,
+      "release_note": "A new query `getManufacturer` has been added, enabling retrieval of manufacturer details by ID. This is a non-breaking change."
+    },
+    {
+      "type": "Dimensions",
+      "field": "length",
+      "change": "Field 'length' made non-nullable",
+      "breaking": true,
+      "release_note": "The `length` field on `Dimensions` is now non-nullable, marking a breaking change. Ensure all dimensions include a value for length."
+    },
+    {
+      "type": "Dimensions",
+      "field": "width",
+      "change": "Field 'width' made non-nullable",
+      "breaking": true,
+      "release_note": "The `width` field on `Dimensions` is now non-nullable, which is a breaking change. Ensure all entries include a value for width."
+    },
+    {
+      "type": "Dimensions",
+      "field": "height",
+      "change": "Field 'height' made non-nullable",
+      "breaking": true,
+      "release_note": "The `height` field on `Dimensions` has been changed to non-nullable. Existing entries with null values in `height` will result in errors."
+    },
+    {
+      "type": "Manufacturer",
+      "field": "id",
+      "change": "Field 'id' made non-nullable",
+      "breaking": true,
+      "release_note": "The `id` field on `Manufacturer` is now non-nullable. Ensure all manufacturer entries have an ID as this is a breaking change."
+    },
+    {
+      "type": "Manufacturer",
+      "field": "name",
+      "change": "Field 'name' made non-nullable",
+      "breaking": true,
+      "release_note": "The `name` field on `Manufacturer` has been made non-nullable. This breaking change requires all manufacturers to have a name value."
+    },
+    {
+      "type": "Manufacturer",
+      "field": "location",
+      "change": "Field 'location' type changed to 'Location'",
+      "breaking": true,
+      "release_note": "The `location` field on `Manufacturer` has been updated to use the `Location` type. This is a breaking change; ensure all references to `location` are updated to use the new type structure."
+    },
+    {
+      "type": "Location",
+      "field": "country",
+      "change": "Field 'country' made non-nullable",
+      "breaking": true,
+      "release_note": "The `country` field on `Location` has been made non-nullable, marking a breaking change. Ensure all location entries include a value for country."
+    }
+  ],
+  "release_notes": {
+    "summary": "This release introduces several breaking changes, including non-nullable updates to `Product`, `Dimensions`, `Manufacturer`, and `Location` fields. New fields and parameters were added, including `rating` in `Product`, and `inStock` parameter in `listProducts` query, alongside a new query `getManufacturer`."
+  }
+}
