@@ -596,3 +596,54 @@ Schema v2:
     """
     prompt_version = 7
     return prompt, prompt_version
+
+def get_prompt_8(schema_v1, schema_v2):
+    example_one, example_two, example_three = get_examples()
+    prompt = f"""Your job is to detect differences between two GraphQL schemas and generate a summary of breaking and non-breaking changes.
+
+Given the two GraphQL schemas below (Schema v1 and Schema v2), perform the following steps:
+
+Identify Differences: Parse the schemas to detect changes, including added, removed, or modified fields, types, or parameters.
+Classify Changes: For each identified change, classify it as either:
+Breaking Change: A modification that alters existing query behavior, such as renaming or removing fields, which requires clients to update their queries.
+Non-Breaking Change: An addition or change that does not affect existing queries, such as adding new fields or parameters that clients can use without any disruption.
+Generate Summary: Create a natural language summary for release notes, including advice for the intended user to action, in a direct tone such as 'make sure to update any queries'. 
+Each entry should clearly state:
+The type of change (breaking or non-breaking)
+The affected type and field
+A concise description of the change
+Structure Response: Format the output with:
+An overall summary in the release notes.
+Detailed entries for each change.
+
+Return your response in JSON format with the following structure:
+
+{{
+"changes": [
+    {{
+    "type": "<Type>",
+    "field": "<Field>",
+    "change": "<Description of the change>",
+    "breaking": <True or False>,
+    "release_note": "<Detailed explanation for release notes>"
+    }},
+    ...
+],
+"release_notes": {{
+    "summary": "<High-level summary of the release including both breaking and non-breaking changes>"
+}}
+}}
+
+Here are two example scenarios to guide your response:
+{example_one}
+{example_two}
+
+Below are the GraphQL schemas to review:
+Schema v1:
+{schema_v1}
+
+Schema v2:
+{schema_v2}
+    """
+    prompt_version = 8
+    return prompt, prompt_version

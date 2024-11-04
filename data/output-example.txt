@@ -10,7 +10,7 @@
     {
       "type": "Weather",
       "field": "visibility",
-      "change": "Added new scalar field 'visibility'",
+      "change": "Added new Int field 'visibility'",
       "breaking": false,
       "release_note": "We've added a new `visibility` field to the `Weather` type. You can now get visibility information in your weather queries without modifying existing ones. This is a non-breaking change."
     }

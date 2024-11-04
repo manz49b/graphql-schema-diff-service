@@ -1,6 +1,6 @@
 from schema_parser import SchemaParser
 from schema_diff import SchemaDiff, json
-from prompt import get_prompt_7
+from prompt import get_prompt_8
 from claude import create_message
 from utils import safe_load_json, save_evaluation_data
 from eval import evaluate_response, f1_results, ab_testing, rate_coherence, expert_rubric, identify_edge_cases
@@ -24,7 +24,7 @@ def main():
     schema_diff = SchemaDiff(schema_v1, schema_v2)
     python_change_report = schema_diff.detect_changes()
 
-    prompt, prompt_version = get_prompt_7(schema_v1, schema_v2)
+    prompt, prompt_version = get_prompt_8(schema_v1, schema_v2)
     response = create_message(prompt, 4096)
     llm_change_report = safe_load_json(response[0].text)
 
